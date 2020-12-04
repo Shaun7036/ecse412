@@ -1,11 +1,9 @@
 % Program runs out of this file. 
 
-
-% ip = wavread('C:\Users\Shaun\Downloads\sample.wav');
-
 % testing frame capture 
-
-[y,FS] = audioread('C:\Users\Shaun\Downloads\sample.wav')
+ip = audioread('C:\Users\Shaun\Downloads\sample.wav');
+% you'll have to download the 'sample' file and input the new path below. 
+[y,Fs] = audioread('C:\Users\Shaun\Downloads\sample.wav');
 
 % breaking signal into 0.1 seconds 
 fs = Fs; % 11025
@@ -19,18 +17,23 @@ numFrames = floor(N/frame_len);
 % frame3 = ip(frame_len*2 + 1 : frame_len*3); 
 
 count = 0;
-new_sig = zeros(N,1) 
+new_sig = zeros(N,1); 
 numFrames
 for i = 1 : numFrames
     frame = ip( (i-1)*frame_len + 1 : frame_len*i); 
     
+  
+    
     % finding frames with amplitude less than 0.2  
     max_val = max(frame); 
-    
-    if (max_val > 0.9) 
+    % ampliyfing sound by a gain of 4
+    if (max_val > 0) 
         count = count + 1
-        new_sig((count-1)*frame_len + 1 : frame_len*count) = frame; 
+        new_sig((count-1)*frame_len + 1 : frame_len*count) = frame*4; 
     end
 end
-
+% type sound(ip, 11025) in command window after running to hear original
+% sound
+% type sound(new_sig, 11025) in command window after running to hear
+% amplified version
 newTime = length(new_sig)/11025
