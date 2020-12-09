@@ -10,9 +10,9 @@ A2 = 51;
 B1 = 9;
 B2 = 7;
 
-GA = 0.3;
-GB = 0.4;
-GC = 0.5;
+GA = 1;
+GB = 1;
+GC = 1;
 
 KA = 1/(A1*A2);
 KB = 1/(B1*B2);
@@ -50,7 +50,7 @@ end
 
 allFrames = new_sig;
 
-
+frameLength = frame_len;
 
 xTotal = [];
 yTotal = [];
@@ -62,6 +62,7 @@ yB1Total = [];
 yB2Total = [];
 yB3Total = [];
 yC1Total = [];
+globalTotal = [];
 nTotal = frame_len;
 
 globalOutput = [];
@@ -116,10 +117,13 @@ for i = 2:1:numFrames %iterate through frames:
 
         Output(n) = OutputA(n) + OutputB(n) + OutputC(n);
         globalOutput(n) = Output(n); 
+        globalTotal(nTotal) = Output(n);
         
         n = n + 1;
         nTotal = nTotal + 1;
     end
 end
 
+
+globalTotal = transpose(globalTotal)
 %check if code till line 76 works 
