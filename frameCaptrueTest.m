@@ -7,7 +7,7 @@ ip = audioread('C:\Users\Shaun\Downloads\sample.wav');
 
 % breaking signal into 0.1 seconds 
 fs = Fs; % 11025
-frame_dur = 0.1; 
+frame_dur = 0.1; %value of frames in seconds 
 frame_len = floor(frame_dur*fs); 
 N = length(ip); 
 numFrames = floor(N/frame_len); 
@@ -18,7 +18,7 @@ numFrames = floor(N/frame_len);
 
 count = 0;
 new_sig = zeros(N,1); 
-numFrames
+% numFrames shows the amount of frames 
 for i = 1 : numFrames
     frame = ip( (i-1)*frame_len + 1 : frame_len*i); 
     
