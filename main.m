@@ -17,6 +17,39 @@ GC = 0.5;
 KA = 1/(A1*A2);
 KB = 1/(B1*B2);
 
+%Louis sample
+audioInput = audioread('/Users/louiscroquette/Desktop/2020-2021/Fall/ECSE 512/Term Project/Code/sample.wav');
+frame_len = 100;
+
+ip = audioread('/Users/louiscroquette/Desktop/2020-2021/Fall/ECSE 512/Term Project/Code/sample.wav');
+[y,Fs] = audioread('/Users/louiscroquette/Desktop/2020-2021/Fall/ECSE 512/Term Project/Code/sample.wav');
+
+% breaking signal into 0.1 seconds 
+N = length(ip); 
+numFrames = floor(N/frame_len); 
+
+% frame1 = ip(1: frame_len); 
+% frame2 = ip(frame_len + 1 : frame_len*2); 
+% frame3 = ip(frame_len*2 + 1 : frame_len*3); 
+
+count = 0;
+new_sig = zeros(N,1); 
+% numFrames shows the amount of frames 
+for i = 1 : numFrames
+    frame = ip( (i-1)*frame_len + 1 : frame_len*i); 
+    % finding frames with amplitude less than 0.2  
+    max_val = max(frame); 
+    % ampliyfing sound by a gain of 4
+    if (max_val > 0) 
+        count = count + 1
+        new_sig((count-1)*frame_len + 1 : frame_len*count) = frame; 
+    end
+end
+
+
+
+allFrames = new_sig;
+
 
 
 xTotal = [];
@@ -33,11 +66,11 @@ nTotal = 0;
 
 
 % splicedSignal = frameSplitter(inputSignal); 
-for i = 0:1:numFrames %iterate through frames:
+for i = 1:1:numFrames %iterate through frames:
     globalOutput = [];
     
-    x = [i]        %splicedSignal(i);
-    y = [];
+    x = allFrames(i);        %splicedSignal(i);
+    y = zeros(frameLength,1);
     yA1 = [];
     yA2 = [];
     yA3 = [];
@@ -50,7 +83,7 @@ for i = 0:1:numFrames %iterate through frames:
     OutputB  =[];
     OutputC  =[];
 
-    for n = 0:frameLength-1
+    for n = 1:frameLength-1
         y(n) = x(n);
         xTotal(nTotal) = x(n);
         yTotal(nTotal) = y(n);
