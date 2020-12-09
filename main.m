@@ -62,42 +62,43 @@ yB1Total = [];
 yB2Total = [];
 yB3Total = [];
 yC1Total = [];
-nTotal = 0;
+nTotal = frame_len;
+
+globalOutput = [];
+
+x = allFrames;        %splicedSignal(i);
+y = zeros(frameLength,1);
+yA1 = zeros(frameLength,1);
+yA2 = zeros(frameLength,1);
+yA3 = zeros(frameLength,1);
+yB1 = zeros(frameLength,1);
+yB2 = zeros(frameLength,1);
+yB3 = zeros(frameLength,1);
+yC1 = zeros(frameLength,1);
+
+OutputA  =[];
+OutputB  =[];
+OutputC  =[];
 
 
 % splicedSignal = frameSplitter(inputSignal); 
-for i = 1:1:numFrames %iterate through frames:
-    globalOutput = [];
-    
-    x = allFrames(i);        %splicedSignal(i);
-    y = zeros(frameLength,1);
-    yA1 = [];
-    yA2 = [];
-    yA3 = [];
-    yB1 = [];
-    yB2 = [];
-    yB3 = [];
-    yC1 = [];
+for i = 2:1:numFrames %iterate through frames:
 
-    OutputA  =[];
-    OutputB  =[];
-    OutputC  =[];
-
-    for n = 1:frameLength-1
+    for n = 2:frameLength-1
         y(n) = x(n);
         xTotal(nTotal) = x(n);
         yTotal(nTotal) = y(n);
 
-        yA(n)=yA1(n-1)+x(n)+xTotal(nTotal-A1); %RRS1 A
+        yA1(n)=yA1(n-1)+x(n)+xTotal(nTotal-A1); %RRS1 A
         yA1Total(nTotal) = yA1(n);
         yA2(n)=yA2(n-1)+yA1(n)+yA1Total(nTotal-A2);  %RRS2 A
         yA2Total(nTotal) = yA2(n);
-        yA3(n)=yA2(n-(H1+H2)/2+1);
+        yA3(n)=yA2Total(nTotal-(B1+B2)/2+1);
         yA3Total(nTotal) = yA3(n);
         yA4(n) = KA*yA3(n);
         yA4Total(nTotal) = yA4(n);
 
-        yB1(n) = x(n-(H1+H2)/2+1);
+        yB1(n) = xTotal(nTotal-(A1+A2)/2+1);
         yB1Total(nTotal) = yB1(n);
         yB2(n) = yB2(n-1)+yB1(n)+yB1Total(nTotal-B1);  %RRS1
         yB2Total(nTotal) = yB2(n);
@@ -106,7 +107,7 @@ for i = 1:1:numFrames %iterate through frames:
         yB4(n) = KB*yB3(n);
         yB4Total(nTotal) = yB4(n);
 
-        yC1(n) = yB1(n-(H1+H2)/2+1);
+        yC1(n) = yB1Total(nTotal-(B1+B2)/2+1);
         yC1Total(nTotal) = yC1(n);
         
         OutputA(n) = GA*(yA4(n));
