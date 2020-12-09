@@ -33,7 +33,7 @@ nTotal = 0;
 
 
 %iterate through frames:
-    
+    globalOutput = [];  
     x = [];
     y = [];
     yA1 = [];
@@ -79,12 +79,10 @@ nTotal = 0;
         OutputC[n] = GC*(yC1[n] - yB4[n])
 
         Output[n] = OutputA[n] + OutputB[n] + OutputC[n]
-
-
+        globalOutput[n] = Output[n]; 
+        
         n += 1;
         nTotal += 1;
     end
-    
-    OutputA  =
-    
 end
+
