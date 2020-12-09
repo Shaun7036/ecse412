@@ -32,9 +32,11 @@ yC1Total = [];
 nTotal = 0;
 
 
-%iterate through frames:
-    globalOutput = [];  
-    x = [];
+% splicedSignal = frameSplitter(inputSignal); 
+for i = 0:1:numFrames %iterate through frames:
+    globalOutput = [];
+    
+    x = [i]        %splicedSignal(i);
     y = [];
     yA1 = [];
     yA2 = [];
@@ -48,41 +50,42 @@ nTotal = 0;
     OutputB  =[];
     OutputC  =[];
 
-    for n=0,L-1:
-        y[n] = x[n]
-        xTotal[nTotal] = x[n]
-        yTotal[nTotal] = y[n]
+    for n = 0:frameLength-1
+        y(n) = x(n);
+        xTotal(nTotal) = x(n);
+        yTotal(nTotal) = y(n);
 
-        yA1[n]=yA1[n-1]+x[n]+xTotal[nTotal-A1]  %RRS1 A
-        yA1Total[nTotal] = yA1[n]
-        yA2[n]=yA2[n-1]+yA1[n]+yA1Total[nTotal-A2]  %RRS2 A
-        yA2Total[nTotal] = yA2[n]
-        yA3[n]=yA2[n-(H1+H2)/2+1]
-        yA3Total[nTotal] = yA3[n]
-        yA4[n] = KA*yA3[n]
-        yA4Total[nTotal] = yA4[n]
+        yA(n)=yA1(n-1)+x(n)+xTotal(nTotal-A1); %RRS1 A
+        yA1Total(nTotal) = yA1(n);
+        yA2(n)=yA2(n-1)+yA1(n)+yA1Total(nTotal-A2);  %RRS2 A
+        yA2Total(nTotal) = yA2(n);
+        yA3(n)=yA2(n-(H1+H2)/2+1);
+        yA3Total(nTotal) = yA3(n);
+        yA4(n) = KA*yA3(n);
+        yA4Total(nTotal) = yA4(n);
 
-        yB1[n] = x[n-(H1+H2)/2+1]
-        yB1Total[nTotal] = yB1[n]
-        yB2[n] = yB2[n-1]+yB1[n]+yB1Total[nTotal-B1]  %RRS1
-        yB2Total[nTotal] = yB2[n]
-        yB3[n] = yB3[n-1]+yB2[n]+yB2Total[nTotal-B2]
-        yB3Total[nTotal] = yB3[n]
-        yB4[n] = KB*yB3[n]
-        yB4Total[nTotal] = yB4[n]
+        yB1(n) = x(n-(H1+H2)/2+1);
+        yB1Total(nTotal) = yB1(n);
+        yB2(n) = yB2(n-1)+yB1(n)+yB1Total(nTotal-B1);  %RRS1
+        yB2Total(nTotal) = yB2(n);
+        yB3(n) = yB3(n-1)+yB2(n)+yB2Total(nTotal-B2);
+        yB3Total(nTotal) = yB3(n);
+        yB4(n) = KB*yB3(n);
+        yB4Total(nTotal) = yB4(n);
 
-        yC1[n] = yB1[n-(H1+H2)/2+1]
-        yC1Total[nTotal] = yC1[n]
+        yC1(n) = yB1(n-(H1+H2)/2+1);
+        yC1Total(nTotal) = yC1(n);
         
-        OutputA[n] = GA*(yA4[n])
-        OutputB[n] = GB*(yB4[n] - yA4[n])
-        OutputC[n] = GC*(yC1[n] - yB4[n])
+        OutputA(n) = GA*(yA4(n));
+        OutputB(n) = GB*(yB4(n) - yA4(n));
+        OutputC(n) = GC*(yC1(n) - yB4(n));
 
-        Output[n] = OutputA[n] + OutputB[n] + OutputC[n]
-        globalOutput[n] = Output[n]; 
+        Output(n) = OutputA(n) + OutputB(n) + OutputC(n);
+        globalOutput(n) = Output(n); 
         
-        n += 1;
-        nTotal += 1;
+        n = n + 1;
+        nTotal = nTotal + 1;
     end
 end
 
+%check if code till line 76 works 
